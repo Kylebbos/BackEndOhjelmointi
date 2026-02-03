@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Edit Kilometers</title>
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+	<div class="container">
+		<h1 class="mt-5">Edit Kilometers</h1>
+
+		<form th:action="@{'/edit/' + ${kilometrit.id}}"
+			th:object="${kilometrit}" method="post">
+			<div class="form-group">
+				<label for="date">Date</label> <input type="text"
+					class="form-control" id="date" name="date" placeholder="Enter date"
+					th:value="*{date}" required="required">
+			</div>
+			<div class="form-group">
+				<label for="car">Car</label> <input type="text" class="form-control"
+					id="car" name="car" placeholder="Enter car" th:value="*{car}"
+					required="required">
+			</div>
+			<div class="form-group">
+				<label for="odometerReading">Odometer reading</label> <input
+					type="number" class="form-control" id="odometerReading"
+					name="odometerReading" placeholder="Enter odometer reading"
+					th:value="*{odometerReading}" required="required">
+			</div>
+			<div class="form-group">
+				<label for="litersFueled">Liters Fueled</label> <input type="number"
+					class="form-control" id="litersFueled" name="litersFueled"
+					placeholder="Enter liters Fueled" th:value="*{litersFueled}"
+					required="required">
+			</div>
+			<div class="form-group">
+				<label for="price">Price</label> <input type="number" step="any"
+					class="form-control" id="price" name="price"
+					placeholder="Enter price" th:value="*{price}" required="required">
+			</div>
+			<div class="form-group">
+				<label for="fuel">Fuel type</label> <select class="form-control"
+					id="fuel" name="fuel" th:field="*{fuel.id}">
+					<option th:each="fuel : ${fueltypes}" th:value="${fuel.id}"
+						th:text="${fuel.name}">Fuel Type</option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Update</button>
+		</form>
+
+		<a class="btn btn-secondary mt-3" th:href="@{/kilometritlist}">Back
+			to Kilometers List</a>
+	</div>
+</body>
+</html>

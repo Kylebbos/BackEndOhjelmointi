@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>Kilometer List</title>
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+	<div class="container">
+		<h1 class="mt-5">⛽️ Kilometer List 🚗</h1>
+		<div class="col-md-4">
+			<i>Welcome <b sec:authentication="name"></b>, your role is <b
+				sec:authentication="principal.authorities"></b>
+		</div>
+		<div class="col-md-4" style="padding: 20px 0">
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
+			</form>
+		</div>
+
+		<table class="table table-striped mt-4">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Car</th>
+					<th>Odometer Reading</th>
+					<th>Liters Fueled</th>
+					<th>Price</th>
+					<th>Fuel type</th>
+					<th>Driven Since Last Entry</th>
+					<th>km/l</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="kilometrit : ${kilometrit}">
+					<td th:text="${kilometrit.date}">Date</td>
+					<td th:text="${kilometrit.car}">Car</td>
+					<td th:text="${kilometrit.odometerReading}">Odometer Reading</td>
+					<td th:text="${kilometrit.litersFueled}">Liters Fueled</td>
+					<td th:text="${kilometrit.price}">Fuel Price</td>
+					<td th:text="${kilometrit.fuel.name}">Fuel Type</td>
+					<td th:text="${kilometrit.drivenSinceLast}">Driven Since Last Entry</td>
+					<td th:text="${kilometrit.averageKilometersToLiters}">Avg Km/L</td>
+					<td>
+						<form th:action="@{'/delete/' + ${kilometrit.id}}"
+							th:method="post">
+							<button class="btn btn-danger" type="submit"
+								onclick="return confirm('Are you sure you want to delete this kilometer listing?');"
+								sec:authorize="hasAuthority('ADMIN')">Delete</button>
+						</form> <a class="btn btn-primary"
+						th:href="@{'/edit/' + ${kilometrit.id}}"
+						sec:authorize="hasAuthority('ADMIN')">Edit</a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<a class="btn btn-success" th:href="@{/addkilometrit}"
+			sec:authorize="hasAuthority('ADMIN')">Add Entry</a>
+	</div>
+</body>
+</html>
